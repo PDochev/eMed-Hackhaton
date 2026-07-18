@@ -1,0 +1,826 @@
+openapi: 3.1.0
+info:
+  # Do not change the title, if the title changes, the import paths will be broken
+  title: Api
+  version: 0.1.0
+  description: Renova - AI-powered health companion API
+servers:
+  - url: /api
+    description: Base API path
+tags:
+  - name: health
+    description: Health operations
+  - name: profile
+    description: User profile management
+  - name: metrics
+    description: Health metrics and scores
+  - name: occupational
+    description: Occupational intelligence
+  - name: carePlan
+    description: Dynamic AI care plan
+  - name: chat
+    description: AI health companion chat
+  - name: social
+    description: Community and social wellbeing
+  - name: enterprise
+    description: Enterprise employer dashboard
+
+paths:
+  /healthz:
+    get:
+      operationId: healthCheck
+      tags: [health]
+      summary: Health check
+      description: Returns server health status
+      responses:
+        "200":
+          description: Healthy
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthStatus"
+
+  /profile:
+    get:
+      operationId: getProfile
+      tags: [profile]
+      summary: Get user profile
+      responses:
+        "200":
+          description: User profile
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserProfile"
+        "404":
+          description: No profile found
+    post:
+      operationId: saveProfile
+      tags: [profile]
+      summary: Create or update user profile
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserProfileInput"
+      responses:
+        "200":
+          description: Saved profile
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserProfile"
+
+  /metrics:
+    get:
+      operationId: getMetrics
+      tags: [metrics]
+      summary: Get current health metrics snapshot
+      responses:
+        "200":
+          description: Current health metrics
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthMetrics"
+
+  /metrics/history:
+    get:
+      operationId: getMetricsHistory
+      tags: [metrics]
+      summary: Get historical health metrics trend data
+      responses:
+        "200":
+          description: Array of historical metrics
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/HealthMetricsHistoryPoint"
+
+  /metrics/summary:
+    get:
+      operationId: getMetricsSummary
+      tags: [metrics]
+      summary: Get aggregated summary of health metrics for dashboard
+      responses:
+        "200":
+          description: Metrics summary
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MetricsSummary"
+
+  /occupational/events:
+    get:
+      operationId: getOccupationalEvents
+      tags: [occupational]
+      summary: List today's occupational events
+      responses:
+        "200":
+          description: List of occupational events
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/OccupationalEvent"
+    post:
+      operationId: addOccupationalEvent
+      tags: [occupational]
+      summary: Log a new occupational event (triggers metric recalculation)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OccupationalEventInput"
+      responses:
+        "201":
+          description: Created event with updated metrics
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OccupationalEventResult"
+
+  /occupational/impact:
+    get:
+      operationId: getOccupationalImpact
+      tags: [occupational]
+      summary: Get current occupational impact analysis and AI explanation
+      responses:
+        "200":
+          description: Occupational impact analysis
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OccupationalImpact"
+
+  /care-plan:
+    get:
+      operationId: getCarePlan
+      tags: [carePlan]
+      summary: Get today's dynamic AI care plan
+      responses:
+        "200":
+          description: Today's care plan with all items
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CarePlan"
+
+  /care-plan/regenerate:
+    post:
+      operationId: regenerateCarePlan
+      tags: [carePlan]
+      summary: Regenerate care plan based on current occupational events
+      responses:
+        "200":
+          description: Updated care plan
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CarePlan"
+
+  /care-plan/items/{itemId}/complete:
+    patch:
+      operationId: completeCarePlanItem
+      tags: [carePlan]
+      summary: Mark a care plan item as completed
+      parameters:
+        - name: itemId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Updated care plan item
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CarePlanItem"
+
+  /chat/messages:
+    get:
+      operationId: getChatMessages
+      tags: [chat]
+      summary: Get chat conversation history
+      responses:
+        "200":
+          description: List of messages
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ChatMessage"
+    post:
+      operationId: sendChatMessage
+      tags: [chat]
+      summary: Send a message to the AI health companion
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ChatMessageInput"
+      responses:
+        "200":
+          description: AI response message
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ChatMessage"
+
+  /social/groups:
+    get:
+      operationId: getSocialGroups
+      tags: [social]
+      summary: Get nearby walking groups and community activities
+      responses:
+        "200":
+          description: List of social groups
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/SocialGroup"
+
+  /social/challenges:
+    get:
+      operationId: getSocialChallenges
+      tags: [social]
+      summary: Get active community challenges
+      responses:
+        "200":
+          description: List of challenges
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/SocialChallenge"
+
+  /social/partners:
+    get:
+      operationId: getAccountabilityPartners
+      tags: [social]
+      summary: Get accountability partners with similar health goals
+      responses:
+        "200":
+          description: List of accountability partners
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/AccountabilityPartner"
+
+  /enterprise/metrics:
+    get:
+      operationId: getEnterpriseMetrics
+      tags: [enterprise]
+      summary: Get anonymised workforce health metrics for employer view
+      responses:
+        "200":
+          description: Enterprise metrics (no personal data)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EnterpriseMetrics"
+
+  /enterprise/trends:
+    get:
+      operationId: getEnterpriseTrends
+      tags: [enterprise]
+      summary: Get enterprise trend data over time (anonymised)
+      responses:
+        "200":
+          description: Enterprise trend data
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/EnterpriseTrendPoint"
+
+components:
+  schemas:
+    HealthStatus:
+      type: object
+      properties:
+        status:
+          type: string
+      required:
+        - status
+
+    UserProfile:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        age:
+          type: integer
+        heightCm:
+          type: number
+        weightKg:
+          type: number
+        occupation:
+          type: string
+        conditions:
+          type: array
+          items:
+            type: string
+        medications:
+          type: array
+          items:
+            type: string
+        goals:
+          type: array
+          items:
+            type: string
+        lifestyleHabits:
+          type: array
+          items:
+            type: string
+        wearableConnected:
+          type: boolean
+        wearableType:
+          type: ["string", "null"]
+        createdAt:
+          type: string
+      required:
+        - id
+        - name
+        - age
+        - heightCm
+        - weightKg
+        - occupation
+        - conditions
+        - medications
+        - goals
+        - lifestyleHabits
+        - wearableConnected
+        - wearableType
+        - createdAt
+
+    UserProfileInput:
+      type: object
+      properties:
+        name:
+          type: string
+        age:
+          type: integer
+        heightCm:
+          type: number
+        weightKg:
+          type: number
+        occupation:
+          type: string
+        conditions:
+          type: array
+          items:
+            type: string
+        medications:
+          type: array
+          items:
+            type: string
+        goals:
+          type: array
+          items:
+            type: string
+        lifestyleHabits:
+          type: array
+          items:
+            type: string
+        wearableConnected:
+          type: boolean
+        wearableType:
+          type: ["string", "null"]
+      required:
+        - name
+        - age
+        - heightCm
+        - weightKg
+        - occupation
+        - conditions
+        - medications
+        - goals
+        - lifestyleHabits
+        - wearableConnected
+
+    HealthMetrics:
+      type: object
+      properties:
+        id:
+          type: integer
+        healthScore:
+          type: integer
+        recoveryScore:
+          type: integer
+        readinessScore:
+          type: integer
+        sleepQuality:
+          type: integer
+        mentalWellbeing:
+          type: integer
+        occupationalImpact:
+          type: integer
+        conditionStatus:
+          type: string
+        restingHeartRate:
+          type: integer
+        hrv:
+          type: integer
+        stepsToday:
+          type: integer
+        activeMinutes:
+          type: integer
+        recordedAt:
+          type: string
+      required:
+        - id
+        - healthScore
+        - recoveryScore
+        - readinessScore
+        - sleepQuality
+        - mentalWellbeing
+        - occupationalImpact
+        - conditionStatus
+        - restingHeartRate
+        - hrv
+        - stepsToday
+        - activeMinutes
+        - recordedAt
+
+    HealthMetricsHistoryPoint:
+      type: object
+      properties:
+        date:
+          type: string
+        healthScore:
+          type: integer
+        recoveryScore:
+          type: integer
+        sleepQuality:
+          type: integer
+        readinessScore:
+          type: integer
+        mentalWellbeing:
+          type: integer
+      required:
+        - date
+        - healthScore
+        - recoveryScore
+        - sleepQuality
+        - readinessScore
+        - mentalWellbeing
+
+    MetricsSummary:
+      type: object
+      properties:
+        weeklyAvgHealth:
+          type: number
+        weeklyAvgRecovery:
+          type: number
+        weeklyAvgSleep:
+          type: number
+        bestDay:
+          type: string
+        worstDay:
+          type: string
+        trend:
+          type: string
+      required:
+        - weeklyAvgHealth
+        - weeklyAvgRecovery
+        - weeklyAvgSleep
+        - bestDay
+        - worstDay
+        - trend
+
+    OccupationalEvent:
+      type: object
+      properties:
+        id:
+          type: integer
+        eventType:
+          type: string
+        description:
+          type: string
+        smokeExposure:
+          type: string
+        heatExposure:
+          type: string
+        fatigueLevel:
+          type: string
+        duration:
+          type: integer
+        occurredAt:
+          type: string
+      required:
+        - id
+        - eventType
+        - description
+        - smokeExposure
+        - heatExposure
+        - fatigueLevel
+        - duration
+        - occurredAt
+
+    OccupationalEventInput:
+      type: object
+      properties:
+        eventType:
+          type: string
+        description:
+          type: string
+        smokeExposure:
+          type: string
+        heatExposure:
+          type: string
+        fatigueLevel:
+          type: string
+        duration:
+          type: integer
+      required:
+        - eventType
+        - description
+        - smokeExposure
+        - heatExposure
+        - fatigueLevel
+        - duration
+
+    OccupationalEventResult:
+      type: object
+      properties:
+        event:
+          $ref: "#/components/schemas/OccupationalEvent"
+        updatedMetrics:
+          $ref: "#/components/schemas/HealthMetrics"
+        aiExplanation:
+          type: string
+      required:
+        - event
+        - updatedMetrics
+        - aiExplanation
+
+    OccupationalImpact:
+      type: object
+      properties:
+        overallRiskLevel:
+          type: string
+        aiExplanation:
+          type: string
+        factors:
+          type: array
+          items:
+            $ref: "#/components/schemas/ImpactFactor"
+        adjustedMetrics:
+          type: object
+          properties:
+            smokeExposureLevel:
+              type: string
+            heatExposureLevel:
+              type: string
+            fatigueLevel:
+              type: string
+            recoveryDelay:
+              type: string
+            respiratoryRisk:
+              type: string
+          required:
+            - smokeExposureLevel
+            - heatExposureLevel
+            - fatigueLevel
+            - recoveryDelay
+            - respiratoryRisk
+      required:
+        - overallRiskLevel
+        - aiExplanation
+        - factors
+        - adjustedMetrics
+
+    ImpactFactor:
+      type: object
+      properties:
+        name:
+          type: string
+        level:
+          type: string
+        change:
+          type: string
+        direction:
+          type: string
+      required:
+        - name
+        - level
+        - change
+        - direction
+
+    CarePlan:
+      type: object
+      properties:
+        id:
+          type: integer
+        date:
+          type: string
+        generatedAt:
+          type: string
+        isAdjustedForOccupation:
+          type: boolean
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/CarePlanItem"
+      required:
+        - id
+        - date
+        - generatedAt
+        - isAdjustedForOccupation
+        - items
+
+    CarePlanItem:
+      type: object
+      properties:
+        id:
+          type: integer
+        category:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        explanation:
+          type: string
+        scheduledTime:
+          type: ["string", "null"]
+        completed:
+          type: boolean
+        priority:
+          type: string
+      required:
+        - id
+        - category
+        - title
+        - description
+        - explanation
+        - scheduledTime
+        - completed
+        - priority
+
+    ChatMessage:
+      type: object
+      properties:
+        id:
+          type: integer
+        role:
+          type: string
+        content:
+          type: string
+        sentAt:
+          type: string
+      required:
+        - id
+        - role
+        - content
+        - sentAt
+
+    ChatMessageInput:
+      type: object
+      properties:
+        content:
+          type: string
+      required:
+        - content
+
+    SocialGroup:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        description:
+          type: string
+        memberCount:
+          type: integer
+        distanceKm:
+          type: number
+        nextMeeting:
+          type: string
+        category:
+          type: string
+      required:
+        - id
+        - name
+        - description
+        - memberCount
+        - distanceKm
+        - nextMeeting
+        - category
+
+    SocialChallenge:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        description:
+          type: string
+        participants:
+          type: integer
+        daysRemaining:
+          type: integer
+        userProgress:
+          type: integer
+        category:
+          type: string
+      required:
+        - id
+        - title
+        - description
+        - participants
+        - daysRemaining
+        - userProgress
+        - category
+
+    AccountabilityPartner:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        sharedGoals:
+          type: array
+          items:
+            type: string
+        healthScoreSimilarity:
+          type: integer
+        streak:
+          type: integer
+      required:
+        - id
+        - name
+        - sharedGoals
+        - healthScoreSimilarity
+        - streak
+
+    EnterpriseMetrics:
+      type: object
+      properties:
+        workforceSize:
+          type: integer
+        avgRecoveryScore:
+          type: integer
+        heatExposureIndex:
+          type: integer
+        fatigueIndex:
+          type: integer
+        respiratoryRiskLevel:
+          type: string
+        operationalRecommendations:
+          type: array
+          items:
+            type: string
+        complianceRate:
+          type: integer
+        dataAsOf:
+          type: string
+      required:
+        - workforceSize
+        - avgRecoveryScore
+        - heatExposureIndex
+        - fatigueIndex
+        - respiratoryRiskLevel
+        - operationalRecommendations
+        - complianceRate
+        - dataAsOf
+
+    EnterpriseTrendPoint:
+      type: object
+      properties:
+        date:
+          type: string
+        avgRecovery:
+          type: integer
+        fatigueIndex:
+          type: integer
+        heatExposure:
+          type: integer
+        respiratoryRisk:
+          type: integer
+      required:
+        - date
+        - avgRecovery
+        - fatigueIndex
+        - heatExposure
+        - respiratoryRisk

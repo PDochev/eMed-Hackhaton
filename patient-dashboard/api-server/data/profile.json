@@ -1,0 +1,31 @@
+{
+  "id": 1,
+  "name": "Emma",
+  "age": 31,
+  "heightCm": 165.0,
+  "weightKg": 78.0,
+  "occupation": "ICU Nurse (Night Shifts)",
+  "conditions": ["PCOS", "Insulin Resistance", "Hyperandrogenism"],
+  "medications": [
+    "Metformin 1000mg twice daily (insulin sensitiser)",
+    "Yasmin OCP 30/3mg (cycle regulation + anti-androgenic)",
+    "Myo-Inositol 4g/day in divided doses",
+    "Vitamin D3 2000IU/day"
+  ],
+  "goals": [
+    "Regulate menstrual cycle",
+    "Reduce androgen-related symptoms (acne, hair loss)",
+    "Improve insulin sensitivity",
+    "Manage weight through metabolic optimisation",
+    "Reduce night-shift cortisol burden"
+  ],
+  "lifestyleHabits": [
+    "Non-smoker",
+    "Alcohol-free (6 months)",
+    "Irregular sleep due to rotating night shifts (3-4 nights/week)",
+    "High-stress work environment (ICU)"
+  ],
+  "wearableConnected": true,
+  "wearableType": "Garmin Vivosmart 5",
+  "createdAt": "2026-07-01T08:00:00.000Z"
+}
