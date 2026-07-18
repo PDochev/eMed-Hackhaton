@@ -1,0 +1,106 @@
+
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>/* Mana Medical — Colour tokens
+   Source of truth: app/constants/colors.ts + Brand Guide (Figma).
+   Brand palette is built on a deep "Mana Green", a soft mint, and warm
+   beige paper. Teal is the interactive/energy accent; warm coral/amber
+   carry exertion + symptom signals. */
+
+:root {
+  /* ---- Brand core (from the Brand Guide) ---- */
+  --mana-green:        #0D2B3E;   /* primary brand dark — app canvas, ink on light */
+  --mana-green-deep:   #1A3A52;   /* gradient top / raised dark surface */
+  --mana-mint:         #B3D9FF;   /* signature light green — buttons, key icon */
+  --mana-dark-blue:    #203654;   /* secondary brand — charts, accents */
+  --mana-light-blue:   #B8CBE4;   /* soft blue — journal / info tiles */
+  --mana-black:        #242424;   /* near-black — dark marketing sections */
+  --mana-beige:        #EAE5DF;   /* warm neutral card on paper */
+  --mana-paper:        #F7F4F0;   /* primary light canvas (app light mode) */
+  --mana-paper-warm:   #F2F0E9;   /* brand-guide / marketing paper */
+
+  /* ---- Teal accent scale (energy / interactive) ---- */
+  --teal-500:          #00CCBD;   /* "linear primary" — brightest, glow + active line */
+  --teal-400:          #65D9C9;   /* secondary teal — accents, marketing CTA, step line */
+  --teal-300:          #52B1A4;   /* medium green — primary brand teal */
+  --teal-deep:         #00A397;   /* neon text on light chips */
+  --teal-glow:         #67F7E0;   /* factor-tile glow */
+
+  /* ---- Warm signal scale (exertion / symptom) ---- */
+  --coral-500:         #F25757;   /* pain / over-exertion / destructive */
+  --coral-400:         #F17663;   /* warm coral (illustration + balance zone) */
+  --coral-300:         #F7A193;   /* soft coral */
+  --coral-200:         #F8BBB1;   /* faint coral wash */
+  --amber-500:         #FF9500;   /* warning / under-exertion */
+  --amber-300:         #FFB269;   /* balance-zone amber */
+  --amber-200:         #FFC690;   /* light orange */
+  --amber-wash:        #FFF3EB;   /* linear light orange surface */
+
+  /* ---- Status ---- */
+  --success:           #4CAF50;
+  --error:             #FF3B30;
+
+  /* ---- Neutrals (paper / ink) ---- */
+  --white:             #FFFFFF;
+  --ink-900:           #0D2B3E;   /* primary text on light = Mana Green */
+  --ink-700:           #1F3632;   /* modal / deep panel */
+  --ink-500:           #333333;
+  --grey-500:          #7F7F7F;   /* mana dark grey — subtext */
+  --grey-400:          #888888;
+  --grey-300:          #D3D3D3;   /* text field */
+  --grey-200:          #E0E0E0;   /* hairline border */
+  --grey-100:          #F5F5F5;
+
+  /* ---- Dark-surface glass (app dark mode) ---- */
+  --glass-05:          rgba(255,255,255,0.05);
+  --glass-07:          rgba(255,255,255,0.07);
+  --glass-10:          rgba(255,255,255,0.10);
+  --glass-line:        rgba(255,255,255,0.10);
+  --on-dark:           #FFFFFF;
+  --on-dark-muted:     rgba(255,255,255,0.75);
+  --on-dark-faint:     rgba(255,255,255,0.50);
+  --tab-bar:           #1A312E;   /* bottom tab background */
+  --modal-dark:        #1F3532;
+  --chip-teal:         rgba(0,204,189,0.15);  /* neon chip fill on light */
+
+  /* ---- Semantic aliases ---- */
+  --bg-app-dark-top:    var(--mana-green-deep);
+  --bg-app-dark-bottom: var(--mana-green);
+  --bg-app-light:       var(--mana-paper);
+  --bg-marketing:       var(--mana-paper-warm);
+
+  --surface-card-dark:  var(--glass-07);
+  --surface-card-light: var(--white);
+  --surface-raised:     var(--glass-10);
+
+  --text-strong:        var(--ink-900);
+  --text-body:          var(--ink-700);
+  --text-subtle:        var(--grey-500);
+  --text-on-dark:       var(--on-dark);
+  --text-on-dark-muted: var(--on-dark-muted);
+
+  --accent:             var(--teal-400);
+  --accent-bright:      var(--teal-500);
+  --accent-ink:         var(--teal-deep);
+  --action-fill:        var(--mana-mint);   /* primary button on light */
+  --action-ink:         var(--mana-green);  /* text on mint button */
+
+  --border-hairline:    var(--grey-200);
+  --border-glass:       var(--glass-line);
+}
+</style>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Manrope',-apple-system,system-ui,sans-serif;background:#F2EFE8;color:#28332F;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+button,input,select{font:inherit;color:inherit}
+button{font-family:inherit}
+::-webkit-scrollbar{width:10px;height:10px}::-webkit-scrollbar-thumb{background:#D6D1C8;border-radius:10px;border:3px solid transparent;background-clip:padding-box}::-webkit-scrollbar-thumb:hover{background:#C4BFB4}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+@keyframes rowExp{from{opacity:0;transform:translateY(-2px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pulseDot{0%,100%{opacity:1}50%{opacity:.35}}
+</style>
+
+
+</helmet>
