@@ -20,6 +20,7 @@ dev = [
 [project.scripts]
 attune-seed = "attune.synth:run"
 attune-demo = "attune.demo:run"
+attune-export = "attune.elevera:run"
 
 [build-system]
 requires = ["hatchling"]
